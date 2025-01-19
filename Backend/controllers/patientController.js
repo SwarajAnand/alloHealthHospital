@@ -3,8 +3,9 @@ const {
   sendSuccess
 } = require("../utils/responseHandler");
 const jwt = require("jsonwebtoken");
+const bcrypt = require("bcryptjs");
 
-// Register patient
+
 exports.registerPatient = async (req, res, next) => {
   const {
     name,
@@ -42,7 +43,6 @@ exports.registerPatient = async (req, res, next) => {
   }
 };
 
-// Login patient
 exports.loginPatient = async (req, res, next) => {
   const {
     email,

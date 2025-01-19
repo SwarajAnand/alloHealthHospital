@@ -9,17 +9,17 @@ import DoctorDashboard from './pages/DoctorDashboard';
 import PatientDashboard from './pages/PatientDashboard';
 import LandingPage from './pages/LandingPage';
 import DoctorRegisterPage from './pages/DoctorRegisterPage';
+import PatientRegisterPage from './pages/PatientRegisterPage';
 
 const App = () => {
   return (
     <Router>
       <AuthProvider>
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path='/doctor/register' element={<DoctorRegisterPage />} />
-          {/* <Route path="/patient/login" element={<PatientLogin />} /> */}
+          <Route path='/patient/register' element={<PatientRegisterPage />} />
           
           {/* Protected Routes */}
           {/* <Route element={<ProtectedRoute />}> */}

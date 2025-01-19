@@ -1,6 +1,6 @@
-
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import PasswordInput from "./PasswordInput";
 
 const FormUi = ({
   title,
@@ -24,7 +24,7 @@ const FormUi = ({
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
@@ -34,21 +34,36 @@ const FormUi = ({
         <form className="mt-8 space-y-6" onSubmit={handleFormSubmit}>
           {error && <div className="text-red-500 text-center">{error}</div>}
           <div className="rounded-md shadow-sm -space-y-px">
-            {fields.map((field, index) => (
-              <div key={field.name}>
-                <input
-                  name={field.name}
-                  type={field.type}
-                  required={field.required}
-                  className={`appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
-                    index === 0 ? "rounded-t-md" : ""
-                  } ${index === fields.length - 1 ? "rounded-b-md" : ""}`}
-                  placeholder={field.placeholder}
-                  value={formData[field.name] || ""}
-                  onChange={handleChange}
-                />
-              </div>
-            ))}
+            {fields.map((field, index) => {
+              if (field.name === "password") {
+                return (
+                  <div key={field.name}>
+                    <PasswordInput
+                      name={field.name}
+                      value={formData[field.name] || ""}
+                      onChange={handleChange}
+                      required={field.required}
+                      placeholder={field.placeholder}
+                    />
+                  </div>
+                );
+              }
+              return (
+                <div key={field.name}>
+                  <input
+                    name={field.name}
+                    type={field.type}
+                    required={field.required}
+                    className={`appearance-none rounded-none relative block w-[100%] px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm ${
+                      index === 0 ? "rounded-t-md" : ""
+                    } ${index === fields.length - 1 ? "rounded-b-md" : ""}`}
+                    placeholder={field.placeholder}
+                    value={formData[field.name] || ""}
+                    onChange={handleChange}
+                  />
+                </div>
+              );
+            })}
           </div>
 
           <div>

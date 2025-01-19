@@ -21,6 +21,7 @@ export const doctorService = {
 
 export const appointmentService = {
     createAppointment: (data) => instance.post("/appointments/appointment", data),
-    getAllAppointments: () => instance.get("/appointments/appointments"),
+    getAllAppointments: () => instance.get("/appointments/all"),
+    getAppointmentForUser: (data) => instance.get("/appointments/appointments", data),
     deleteAppointment: (id) => instance.delete(`/appointments/appointment/${id}`),
 };
