@@ -1,0 +1,14 @@
+{
+    "email": "johndoe@example.com",
+    "password": "password123"
+}
+
+{
+    "name": "Dr. John Doe",
+    "email": "johndoe@example.com",
+    "password": "password123",
+    "specialization": "Cardiologist",
+    "experience": 10,
+    "phone": "1234567890"
+  }
+  
