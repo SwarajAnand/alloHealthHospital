@@ -4,9 +4,9 @@
 }
 
 {
-    "name": "Dr. John Doe",
-    "email": "johndoe@example.com",
-    "password": "password123",
+    "name": "Dr.swaraj test",
+    "email": "test1@example.com",
+    "password": "test1",
     "specialization": "Cardiologist",
     "experience": 10,
     "phone": "1234567890"

@@ -8,6 +8,7 @@ import LoginPage from './pages/LoginPage';
 import DoctorDashboard from './pages/DoctorDashboard';
 import PatientDashboard from './pages/PatientDashboard';
 import LandingPage from './pages/LandingPage';
+import DoctorRegisterPage from './pages/DoctorRegisterPage';
 
 const App = () => {
   return (
@@ -17,6 +18,7 @@ const App = () => {
           {/* Public Routes */}
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LoginPage />} />
+          <Route path='/doctor/register' element={<DoctorRegisterPage />} />
           {/* <Route path="/patient/login" element={<PatientLogin />} /> */}
           
           {/* Protected Routes */}

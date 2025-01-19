@@ -21,7 +21,7 @@ exports.registerDoctor = async (req, res, next) => {
       specialization,
       experience,
       phone,
-      role,
+      role: 'doctor',
     });
     await newDoctor.save();
 
