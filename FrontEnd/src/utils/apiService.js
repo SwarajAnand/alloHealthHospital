@@ -11,6 +11,7 @@ export const doctorService = {
     updateProfile: (doctorId, data) =>
         instance.post(`/doctors/update/${doctorId}`, data),
     setAvailable: (doctorId) => instance.patch(`/doctors/${doctorId}/available`),
+    getAllDoctors: () => instance.get("/doctors/getAlldoctors"),
     setBusy: (doctorId) => instance.patch(`/doctors/${doctorId}/busy`),
     setOffDuty: (doctorId) => instance.patch(`/doctors/${doctorId}/off-duty`),
     acceptAppointment: (doctorId, appointmentId) =>

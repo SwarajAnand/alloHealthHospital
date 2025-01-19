@@ -7,7 +7,8 @@ const {
   setDoctorOffDuty,
   acceptAppointment,
   rejectAppointment,
-  editDoctorProfile
+  editDoctorProfile,
+  getAlldoctors,
 } = require("../controllers/doctorController");
 const authMiddleware = require("../middlewares/authMiddlewares");
 
@@ -17,6 +18,7 @@ const router = express.Router();
 router.post("/register", registerDoctor);
 router.post("/login", loginDoctor);
 router.post("/update/:doctorId", authMiddleware, editDoctorProfile);
+router.get("/getAlldoctors", authMiddleware, getAlldoctors);
 
 // Doctor status routes
 router.patch("/doctor/:doctorId/available", authMiddleware, setDoctorAvailable);

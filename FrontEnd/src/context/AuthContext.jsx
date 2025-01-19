@@ -1,6 +1,6 @@
 import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService, appointmentService } from '../utils/apiService';
+import { authService, appointmentService, doctorService } from '../utils/apiService';
 
 export const AuthContext = createContext();
 
@@ -39,7 +39,8 @@ export const AuthProvider = ({ children }) => {
   // Fetch the list of doctors
   const fetchDoctors = async () => {
     try {
-      const response = await authService.get('/doctors');
+      const response = await doctorService.getAllDoctors();
+       console.log(response.data);
       setDoctors(response.data);
     } catch (error) {
       console.error('Error fetching doctors', error);

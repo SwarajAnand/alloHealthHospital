@@ -67,6 +67,7 @@ exports.loginPatient = async (req, res, next) => {
     sendSuccess(res, {
       id: patient._id,
       name: patient.name,
+      role: 'Patient',
       token
     }, "Patient logged in successfully");
   } catch (error) {

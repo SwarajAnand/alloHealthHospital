@@ -35,6 +35,28 @@ exports.registerDoctor = async (req, res, next) => {
   }
 };
 
+exports.getAlldoctors = async (req, res, next) => {
+  try {
+    const doctors = await Doctor.find().select("name specialization experience email");
+
+    if (!doctors || doctors.length === 0) {
+      return sendError(res, "No doctors found", 404);
+    }
+
+    const doctorData = doctors.map(doctor => ({
+      name: doctor.name,
+      specialization: doctor.specialization,
+      experience: doctor.experience,
+      email: doctor.email
+    }));
+
+    sendSuccess(res, doctorData, "Doctors fetched successfully");
+  } catch (error) {
+    console.error("Error fetching doctors:", error);
+    sendError(res, "Server error", 500);
+  }
+};
+
 exports.loginDoctor = async (req, res, next) => {
   const { email, password } = req.body;
 
