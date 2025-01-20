@@ -1,18 +1,21 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { AuthContext } from '../context/AuthContext';
-import { authService } from '../utils/apiService';
+import { appointmentService } from '../utils/apiService';
 
 const PatientDashboard = () => {
-  const { appointments, doctors } = useContext(AuthContext);
+  const { appointments, doctors, userDetails } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     doctorId: '',
     problem: '',
     date: '',
     time: '',
     emergency: false,
+    patientId: userDetails.id
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  console.debug(typeof userDetails)
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -28,12 +31,11 @@ const PatientDashboard = () => {
     setError('');
 
     try {
-      await authService.post('/appointments', formData);
+      await appointmentService.createAppointment(formData);
       alert('Appointment booked successfully!');
       setFormData({ doctorId: '', problem: '', date: '', time: '', emergency: false });
     } catch (err) {
       setError('Error booking appointment.');
-      console.error(err);
     } finally {
       setLoading(false);
     }
@@ -71,8 +73,8 @@ const PatientDashboard = () => {
               required
             >
               <option value="">Select a doctor</option>
-              {doctors.map((doctor) => (
-                <option key={doctor._id} value={doctor._id}>
+              {doctors && doctors.map((doctor) => (
+                <option key={doctor.doctorId} value={doctor.doctorId}>
                   {doctor.name} - {doctor.specialization}
                 </option>
               ))}

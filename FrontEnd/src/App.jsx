@@ -27,7 +27,7 @@ const App = () => {
           {/* </Route> */}
           
           {/* <Route element={<ProtectedRoute />}> */}
-            <Route path="/patient/dashboard" element={<PatientDashboard />} />
+            <Route path="/patient-dashboard" element={<PatientDashboard />} />
           {/* </Route> */}
         </Routes>
       </AuthProvider>

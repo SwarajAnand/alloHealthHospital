@@ -47,7 +47,8 @@ exports.getAlldoctors = async (req, res, next) => {
       name: doctor.name,
       specialization: doctor.specialization,
       experience: doctor.experience,
-      email: doctor.email
+      email: doctor.email,
+      doctorId: doctor._id
     }));
 
     sendSuccess(res, doctorData, "Doctors fetched successfully");

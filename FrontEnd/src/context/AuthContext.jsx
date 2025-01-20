@@ -20,6 +20,9 @@ export const AuthProvider = ({ children }) => {
       setAuth({ token, ...user });
     }
 
+    console.log(user);
+    console.log("hjghjghjghj")
+
     if (user) {
       fetchAppointments(user.id, user.role);
       fetchDoctors();
@@ -40,8 +43,8 @@ export const AuthProvider = ({ children }) => {
   const fetchDoctors = async () => {
     try {
       const response = await doctorService.getAllDoctors();
-       console.log(response.data);
-      setDoctors(response.data);
+      console.log(response.data);
+      setDoctors(response.data.data);
     } catch (error) {
       console.error('Error fetching doctors', error);
     }
@@ -64,7 +67,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login, logout, appointments, doctors }}>
+    <AuthContext.Provider value={{ auth, login, logout, appointments, doctors, userDetails}}>
       {children}
     </AuthContext.Provider>
   );
