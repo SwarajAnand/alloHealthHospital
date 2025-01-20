@@ -3,7 +3,8 @@ import { AuthContext } from "../context/AuthContext";
 import { appointmentService } from "../utils/apiService";
 
 const PatientDashboard = () => {
-  const { appointments, doctors, userDetails, setAppointments, logout } = useContext(AuthContext);
+  const { appointments, doctors, userDetails, setAppointments, logout } =
+    useContext(AuthContext);
   const [formData, setFormData] = useState({
     doctorId: "",
     problem: "",
@@ -29,18 +30,22 @@ const PatientDashboard = () => {
     setError("");
 
     try {
-      const payload = { ...formData, patientId: userDetails.id };
+      const payload = { ...formData, patientId: userDetails?.id };
       const newAppointment = await appointmentService.createAppointment(payload);
-      alert("Appointment booked successfully!");
+
       const updatedAppointments = [...appointments, newAppointment];
       setAppointments(updatedAppointments);
+
       setFormData({
         doctorId: "",
         problem: "",
         date: "",
         time: "",
         emergency: false,
+        patientId: userDetails?.id,
       });
+
+      alert("Appointment booked successfully!");
     } catch (err) {
       console.error(err);
       setError("Error booking appointment.");
@@ -50,7 +55,7 @@ const PatientDashboard = () => {
   };
 
   const handleLogout = () => {
-    logout(); // Call logout function from context
+    logout();
   };
 
   return (
@@ -71,32 +76,39 @@ const PatientDashboard = () => {
             <h2 className="text-xl font-semibold mb-4 text-indigo-600">
               Your Appointments
             </h2>
-            {appointments.length > 0 ? (
+            {appointments?.length > 0 ? (
               <div className="space-y-4">
-                {appointments.map((appointment) => (
-                  <div
-                    key={appointment._id}
-                    className="p-4 bg-gray-50 rounded-lg shadow"
-                  >
-                    <p className="text-gray-700">
-                      <strong>Doctor:</strong> {appointment.doctor.name}
-                    </p>
-                    <p className="text-gray-700">
-                      <strong>Specialization:</strong>{" "}
-                      {appointment.doctor.specialization}
-                    </p>
-                    <p className="text-gray-700">
-                      <strong>Problem:</strong> {appointment.problem}
-                    </p>
-                    <p className="text-gray-700">
-                      <strong>Date:</strong>{" "}
-                      {new Date(appointment.date).toLocaleDateString()}
-                    </p>
-                    <p className="text-gray-700">
-                      <strong>Status:</strong> {appointment.status}
-                    </p>
-                  </div>
-                ))}
+                {appointments.map((appointment) => {
+                  const doctorName = appointment.doctor?.name || "Unknown";
+                  const doctorSpecialization =
+                    appointment.doctor?.specialization || "Not specified";
+
+                  return (
+                    <div
+                      key={appointment._id}
+                      className="p-4 bg-gray-50 rounded-lg shadow"
+                    >
+                      <p className="text-gray-700">
+                        <strong>Doctor:</strong> {doctorName}
+                      </p>
+                      <p className="text-gray-700">
+                        <strong>Specialization:</strong>{" "}
+                        {doctorSpecialization}
+                      </p>
+                      <p className="text-gray-700">
+                        <strong>Problem:</strong> {appointment.problem}
+                      </p>
+                      <p className="text-gray-700">
+                        <strong>Date:</strong>{" "}
+                        {new Date(appointment.date).toLocaleDateString()}
+                      </p>
+                      <p className="text-gray-700">
+                        <strong>Status:</strong>{" "}
+                        {appointment.status || "Pending"}
+                      </p>
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <p className="text-gray-500">No appointments scheduled.</p>
@@ -122,7 +134,10 @@ const PatientDashboard = () => {
                   <option value="">Select a doctor</option>
                   {doctors &&
                     doctors.map((doctor) => (
-                      <option key={doctor.doctorId} value={doctor.doctorId}>
+                      <option
+                        key={doctor.doctorId}
+                        value={doctor.doctorId}
+                      >
                         {doctor.name} - {doctor.specialization}
                       </option>
                     ))}
