@@ -150,6 +150,9 @@ exports.editDoctorProfile = async (req, res, next) => {
 exports.setDoctorAvailable = async (req, res, next) => {
   const { doctorId } = req.params;
 
+  console.log(doctorId);
+  console.log("doctorId");
+
   try {
     const doctor = await Doctor.findById(doctorId);
     if (!doctor) {
@@ -173,6 +176,9 @@ exports.setDoctorAvailable = async (req, res, next) => {
 
 exports.setDoctorBusy = async (req, res, next) => {
   const { doctorId } = req.params;
+
+  console.log(doctorId);
+  console.log("doctorId inside the controller");
 
   try {
     const doctor = await Doctor.findById(doctorId);
@@ -277,3 +283,22 @@ exports.rejectAppointment = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getDoctorProfile = async (req, res, next) => {
+  const { doctorId } = req.params;
+
+  try {
+    const doctor = await Doctor.findById(doctorId).select(
+      "name email specialization experience phone shift status"
+    );
+
+    if (!doctor) {
+      return sendError(res, "Doctor not found", 404);
+    }
+
+    sendSuccess(res, doctor, "Doctor profile fetched successfully");
+  } catch (error) {
+    next(error);
+  }
+};
+

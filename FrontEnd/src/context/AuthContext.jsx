@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { authService, appointmentService, doctorService } from '../utils/apiService';
+import { appointmentService, doctorService } from '../utils/apiService';
+import PropTypes from 'prop-types';
 
 export const AuthContext = createContext();
 
@@ -20,35 +21,25 @@ export const AuthProvider = ({ children }) => {
       setAuth({ token, ...user });
     }
 
-    console.log(user);
-    console.log("hjghjghjghj")
-
     if (user) {
-      console.debug(user);
       fetchAppointments(user.id, user.role);
       fetchDoctors();
     }
   }, []);
 
   const fetchAppointments = async (patientId, role) => {
-    console.debug(patientId, role);
-    
     try {
       const data = { id: patientId, role: role };
-      // console.debug('Data sent to backend:', data);
       const response = await appointmentService.getAppointmentForUser(data);
-      console.debug(response.data.data);
       setAppointments(response.data.data);
     } catch (error) {
       console.error('Error fetching appointments', error);
     }
   };
 
-  // Fetch the list of doctors
   const fetchDoctors = async () => {
     try {
       const response = await doctorService.getAllDoctors();
-      console.log(response.data);
       setDoctors(response.data.data);
     } catch (error) {
       console.error('Error fetching doctors', error);
@@ -61,6 +52,7 @@ export const AuthProvider = ({ children }) => {
     setUserDetails({ id, name, role });
     localStorage.setItem('user', JSON.stringify({ id, name, role }));
     setAuth({ token, id, name, role });
+    fetchDoctors();
     navigate(role === 'Doctor' ? '/doctor-dashboard' : '/patient-dashboard');
   };
 
@@ -72,8 +64,12 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ auth, login, logout, appointments, doctors, userDetails}}>
+    <AuthContext.Provider value={{ auth, login, logout, appointments, setAppointments, doctors, userDetails }}>
       {children}
     </AuthContext.Provider>
   );
+};
+
+AuthProvider.propTypes = {
+  children: PropTypes.node.isRequired,
 };

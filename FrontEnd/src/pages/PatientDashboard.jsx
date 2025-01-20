@@ -3,7 +3,7 @@ import { AuthContext } from "../context/AuthContext";
 import { appointmentService } from "../utils/apiService";
 
 const PatientDashboard = () => {
-  const { appointments, doctors, userDetails, logout } = useContext(AuthContext); // Destructure logout from context
+  const { appointments, doctors, userDetails, setAppointments, logout } = useContext(AuthContext);
   const [formData, setFormData] = useState({
     doctorId: "",
     problem: "",
@@ -30,8 +30,10 @@ const PatientDashboard = () => {
 
     try {
       const payload = { ...formData, patientId: userDetails.id };
-      await appointmentService.createAppointment(payload);
+      const newAppointment = await appointmentService.createAppointment(payload);
       alert("Appointment booked successfully!");
+      const updatedAppointments = [...appointments, newAppointment];
+      setAppointments(updatedAppointments);
       setFormData({
         doctorId: "",
         problem: "",

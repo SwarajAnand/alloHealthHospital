@@ -35,9 +35,6 @@ exports.createAppointment = async (req, res, next) => {
 exports.getAppointments = async (req, res, next) => {
   try {
     const { role, id } = req.query;
-
-    console.log(req.query);
-
     let appointments;
 
     if (role === "Patient") {
@@ -92,15 +89,18 @@ exports.deleteAppointment = async (req, res, next) => {
 
 exports.getAllAppointmentsForDoctors = async (req, res, next) => {
   try {
-    const { role } = req.user;
-    if (role !== "Doctor") {
-      return res.status(403).json({ message: "Forbidden: Only doctors can access this resource." });
-    }
+    // const { role } = req.user.role;
+    // console.log(req.user.role);
+    // if (role !== "Doctor") {
+    //   return res.status(403).json({ message: "Forbidden: Only doctors can access this resource." });
+    // }
     
     const appointments = await Appointment.find()
       .populate("doctor", "name specialization")
       .populate("patient", "name email")
       .sort({ emergency: -1, date: 1 }); 
+
+    // console.log(appointments);
     res.status(200).json({ success: true, data: appointments });
   } catch (error) {
     next(error);
