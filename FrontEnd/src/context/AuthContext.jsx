@@ -24,16 +24,21 @@ export const AuthProvider = ({ children }) => {
     console.log("hjghjghjghj")
 
     if (user) {
+      console.debug(user);
       fetchAppointments(user.id, user.role);
       fetchDoctors();
     }
   }, []);
 
-  // Fetch appointments for the patient
   const fetchAppointments = async (patientId, role) => {
+    console.debug(patientId, role);
+    
     try {
-      const response = await appointmentService.getAppointmentForUser({patientId, role });
-      setAppointments(response.data);
+      const data = { id: patientId, role: role };
+      // console.debug('Data sent to backend:', data);
+      const response = await appointmentService.getAppointmentForUser(data);
+      console.debug(response.data.data);
+      setAppointments(response.data.data);
     } catch (error) {
       console.error('Error fetching appointments', error);
     }

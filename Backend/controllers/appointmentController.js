@@ -34,7 +34,9 @@ exports.createAppointment = async (req, res, next) => {
 
 exports.getAppointments = async (req, res, next) => {
   try {
-    const { role, id } = req.body;
+    const { role, id } = req.query;
+
+    console.log(req.query);
 
     let appointments;
 

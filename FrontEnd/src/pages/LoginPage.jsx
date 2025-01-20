@@ -56,12 +56,8 @@ const LoginPage = () => {
 
       if (response?.status === 200) {
         const { id, name, role, token } = responseData;
-
         console.debug({ id, name, role, token });
-
         login({ id, name, role, token });
-
-        navigate(role === 'doctor' ? '/doctor/register' : '/patient-dashboard');
       } else {
         setError(response?.message || 'An error occurred while logging in');
       }
