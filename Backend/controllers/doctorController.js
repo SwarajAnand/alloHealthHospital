@@ -271,13 +271,13 @@ exports.rejectAppointment = async (req, res, next) => {
       });
     }
 
-    appointment.status = "Rejected";
+    appointment.status = "Cancelled";
     await appointment.save();
 
     sendSuccess(
       res,
       { doctorStatus: doctor.status, appointmentStatus: appointment.status },
-      "Appointment rejected and doctor marked as available"
+      "Appointment Cancelled and doctor marked as available"
     );
   } catch (error) {
     next(error);

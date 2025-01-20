@@ -75,11 +75,13 @@ const DoctorDashboard = () => {
   const handleStatusChange = async (appointmentId, status) => {
     try {
       if (status === "Scheduled") {
+        // Accept the appointment if the status is "Scheduled"
         await doctorService.acceptAppointment(userDetails.id, appointmentId);
-      } else if (status === "Rejected") {
+      } else if (status === "Cancelled") {
+        // Reject the appointment if the status is "Cancelled"
         await doctorService.rejectAppointment(userDetails.id, appointmentId);
       }
-      await fetchAppointments();
+      await fetchAppointments(); // Fetch appointments again after status change
     } catch (err) {
       console.error("Error updating appointment status:", err);
       setError("Failed to update appointment status. Please try again.");
@@ -317,21 +319,10 @@ const DoctorDashboard = () => {
                     </div>
                     <div className="mb-2">
                       <p className="font-medium">
-                        Date: {new Date(appointment.date).toLocaleDateString()}
+                        Date: {new Date(appointment.date).toLocaleString()}
                       </p>
-                      <p className="font-medium">Time: {appointment.time}</p>
                     </div>
-                    <div className="flex gap-4">
-                      <p>
-                        Status:{" "}
-                        <span
-                          className={`text-${
-                            appointment.status === "Scheduled" ? "green" : "red"
-                          }-500`}
-                        >
-                          {appointment.status}
-                        </span>
-                      </p>
+                    <div className="flex items-center gap-4">
                       <select
                         value={appointment.status}
                         onChange={(e) =>
@@ -339,9 +330,8 @@ const DoctorDashboard = () => {
                         }
                         className="px-3 py-1 border rounded"
                       >
-                        <option value="Pending">Pending</option>
                         <option value="Scheduled">Scheduled</option>
-                        <option value="Rejected">Rejected</option>
+                        <option value="Cancelled">Cancelled</option>
                       </select>
                     </div>
                   </div>
